@@ -44,8 +44,8 @@ class WikiView  extends AbstractView{
      *
      */
     protected function renderView(){
-		
-		$html = 
+
+		$html =
 				"<h1>".$this->data->title ."</h1>".
 				Markdown::defaultTransform($this->data->text).
 				"Rédigez le ".$this->data->date ." par ".$this->data->author ."
@@ -54,11 +54,11 @@ class WikiView  extends AbstractView{
         return $html;
 
     }
-	
+
 	protected function renderAdd(){
 		return $this->data;
 	}
-	
+
 	protected function renderUpdate(){
 		return $this->data;
 	}

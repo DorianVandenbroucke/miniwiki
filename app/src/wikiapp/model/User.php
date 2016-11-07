@@ -29,36 +29,36 @@ class User extends AbstractModel{
     }
 
     protected function update(){
-        $requete = 
-				"UPDATE user 
-				SET 
-					login=".$this->login .", 
-					pass=".$this->pass .", 
-					level=".$this->level ." 
+        $requete =
+				"UPDATE user
+				SET
+					login=".$this->login .",
+					pass=".$this->pass .",
+					level=".$this->level ."
 				WHERE id=".$this->id;
-		
+
         $prep = $this->db->prepare($requete);
         $ligne = $this->db->exec($prep);
-		
+
         return $ligne;
     }
 
     protected function insert(){
-		
-        $requete = 
-				"INSERT INTO user 
+
+        $requete =
+				"INSERT INTO user
 				VALUES(
-					null, 
-					".$this->login .", 
-					".$this->pass .", 
-					".$this->level ." 
+					null,
+					".$this->login .",
+					".$this->pass .",
+					".$this->level ."
 				)";
-		
+
         $prep = $this->db->prepare($requete);
         $ligne = $this->db->exec($prep);
-		
+
         return $ligne;
-		
+
     }
 
     public function save(){
@@ -84,6 +84,17 @@ class User extends AbstractModel{
     static public function findById($id) {
         $db = ConnectionFactory::makeConnection();
         $requete = "SELECT * FROM user WHERE id=".$id;
+        $prep = $db->prepare($requete);
+        if ($prep->execute()) {
+            return $prep->fetchObject(__CLASS__);
+        }else {
+            echo "Erreur requete";
+        }
+    }
+
+    static public function findByUser($login) {
+        $db = ConnectionFactory::makeConnection();
+        $requete = "SELECT * FROM user WHERE login = '".$login ."'";
         $prep = $db->prepare($requete);
         if ($prep->execute()) {
             return $prep->fetchObject(__CLASS__);

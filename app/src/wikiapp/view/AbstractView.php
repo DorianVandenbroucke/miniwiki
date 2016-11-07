@@ -87,6 +87,11 @@ abstract class AbstractView {
         $html .= '<ul>';
         $html .= '<li><a href="'.$this->script_name.'/wiki/list/">Tous les articles</a></li>';
         $html .= '<li><a href="'.$this->script_name.'/wiki/add/">Ajouter un article</a></li>';
+        if(isset($_SESSION['user_login'])){
+          $html .= '<li><a href="'.$this->script_name.'/admin/logout/">Déconnexion</a></li>';
+        }else{
+          $html .= '<li><a href="'.$this->script_name.'/admin/login/">Connexion</a></li>';
+        }
         $html .= "</ul>";
         return $html;
 
