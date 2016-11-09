@@ -50,13 +50,13 @@ class User extends AbstractModel{
 				"INSERT INTO user
 				VALUES(
 					null,
-					".$this->login .",
-					".$this->pass .",
+					'".$this->login ."',
+					'".$this->pass ."',
 					".$this->level ."
 				)";
 
         $prep = $this->db->prepare($requete);
-        $ligne = $this->db->exec($prep);
+        $ligne = $this->db->exec($prep->queryString);
 
         return $ligne;
 

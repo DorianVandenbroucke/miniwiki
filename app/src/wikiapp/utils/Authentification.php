@@ -54,21 +54,15 @@ Class Authentification extends AbstractAuthentification{
 
 	public function createUser($login, $pass, $level){
 
-    $db = ConnectionFactory::makeConnection();
+		$pass = password_hash($pass, PASSWORD_DEFAULT);
 
-		$password = password_hash($pass, PASSWORD_DEFAULT);
-		$requete = "
-							INSERT INTO user
-							VALUES(
-								NULL,
-								'".$login ."',
-								'".$pass ."',
-								'".$level ."'
-							)";
-		$prep = $db->prepare($requete);
-		$res = $db->exec($prep);
+		$user = new User();
+		$user->login = $login;
+		$user->pass = $pass;
+		$user->level = $level;
 
-		return $login ." a bien été inscrit.";
+		$user->save();
+		return true;
 
 	}
 
