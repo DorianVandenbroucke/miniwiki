@@ -28,40 +28,40 @@ class Page extends AbstractModel{
     }
 
     protected function update(){
-		
-        $requete = 
-				"UPDATE page 
-				SET 
-					'".$this->title ."', 
-					'".$this->text ."', 
-					'".$this->date ."', 
+
+        $requete =
+				"UPDATE page
+				SET
+					'".$this->title ."',
+					'".$this->text ."',
+					'".$this->date ."',
 					".$this->author ."
 				WHERE id = ".$this->id;
-				
+
         $prep = $this->db->prepare($requete);
         $ligne = $this->db->exec($prep->queryString);
-		
+
         return $ligne;
-		
+
     }
 
     protected function insert(){
-		
-        $requete = 
-				"INSERT INTO page 
+
+        $requete =
+				"INSERT INTO page
 				VALUES(
-					null, 
-					'".$this->title ."', 
-					'".$this->text ."', 
-					'".$this->date ."', 
+					null,
+					'".$this->title ."',
+					'".$this->text ."',
+					'".$this->date ."',
 					".$this->author ."
 				)";
-		
+
         $prep = $this->db->prepare($requete);
         $ligne = $this->db->exec($prep->queryString);
-		
+
         return $ligne;
-		
+
     }
 
     public function save(){
@@ -79,7 +79,7 @@ class Page extends AbstractModel{
             $requete = "DELETE FROM page WHERE id=".$this->id;
             $prep = $this->db->prepare($requete);
             $ligne = $this->db->exec($prep);
-			
+
             return $ligne;
         }
 
@@ -99,6 +99,17 @@ class Page extends AbstractModel{
     static public function findByTitle($title){
         $db = ConnectionFactory::makeConnection();
         $requete = "SELECT * FROM page WHERE title= '".$title."'";
+        $prep = $db->prepare($requete);
+        if ($prep->execute()){
+            return $prep->fetchObject(__CLASS__);
+        }else {
+            echo "Erreur requete";
+        }
+    }
+
+    static public function findByUser($user_id){
+        $db = ConnectionFactory::makeConnection();
+        $requete = "SELECT * FROM page WHERE author = '".$user_id ."'";
         $prep = $db->prepare($requete);
         if ($prep->execute()){
             return $prep->fetchObject(__CLASS__);

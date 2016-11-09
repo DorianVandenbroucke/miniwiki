@@ -30,9 +30,30 @@ class WikiAdminView  extends AbstractView{
               <input type='password' placeholder='password' name='pass' />
               <input type='submit' value='sign in' name='validate' />
             </form>
-            Vous n'avez pas encore de compte? <a href='$this->script_name/admin/registration'>Inscrivez-vous</a>.
+            Vous n'avez pas encore de compte? <a href='$this->script_name/admin/registration/'>Inscrivez-vous</a>.
             ";
       return $form;
+    }
+
+     public function renderRegistration(){
+       $form = "
+             <form method='POST' action='$this->script_name/admin/createUser/'>
+               <input type='text' placeholder='login' name='login' />
+               <input type='password' placeholder='password' name='pass' />
+               <input type='password' placeholder='password' name='pass_2' />
+               <input type='submit' value='registrer' name='validate' />
+             </form>
+             Vous avez déjà un compte? <a href='$this->script_name/admin/login/'>Connectez-vous</a>.
+             ";
+       return $form;
+     }
+
+    public function renderPerso(){
+        $html = "<h1>Vos articles</h1>";
+        foreach ($this->data as $value){
+            $html .="<li><a href='$this->script_name/wiki/view/?title=$value->title'>$value->title</a></li>";
+        }
+        return "<ul id='menu2'>$html</ul>";
     }
 
     public function render($selector){
@@ -41,6 +62,12 @@ class WikiAdminView  extends AbstractView{
         switch($selector){
         case 'login':
             $main = $this->renderLogin();
+            break;
+        case 'perso':
+            $main = $this->renderPerso();
+            break;
+        case 'registration':
+            $main = $this->renderRegistration();
             break;
 
         default:

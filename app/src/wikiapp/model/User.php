@@ -3,6 +3,7 @@
 namespace wikiapp\model;
 
 use wikiapp\utils\ConnectionFactory as ConnectionFactory;
+use wikiapp\model\Page as Page;
 
 class User extends AbstractModel{
 
@@ -115,7 +116,7 @@ class User extends AbstractModel{
     }
 
     public function getPages() {
-        $requete = "SELECT * FROM page WHERE author=".$this->author;
+        $requete = "SELECT * FROM page WHERE author = ".$this->id;
         $prep = $this->db->prepare($requete);
         if ($prep->execute()){
             return $prep->fetchAll(\PDO::FETCH_CLASS, Page::class);

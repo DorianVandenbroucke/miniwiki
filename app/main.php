@@ -19,6 +19,8 @@ $router->addRoute('/admin/login/', '\wikiapp\control\WikiAdminController', 'logi
 $router->addRoute('/admin/checkUser/', '\wikiapp\control\WikiAdminController', 'checkUser',  -100);
 $router->addRoute('/admin/perso/', '\wikiapp\control\WikiAdminController', 'userSpace',  -100);
 $router->addRoute('/admin/logout/', '\wikiapp\control\WikiAdminController', 'logoutUser',  -100);
+$router->addRoute('/admin/registration/', '\wikiapp\control\WikiAdminController', 'registrerUser',  -100);
+$router->addRoute('/admin/createUser/', '\wikiapp\control\WikiAdminController', 'createUser',  -100);
 
 $http_req = new HttpRequest();
 $router->dispatch($http_req);

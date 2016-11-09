@@ -49,9 +49,10 @@ class WikiView  extends AbstractView{
 				"<h1>".$this->data->title ."</h1>".
 				Markdown::defaultTransform($this->data->text).
 				"Rédigez le ".$this->data->date ." par ".$this->data->author ."
-				<br />
-				<a href='".$this->script_name ."/wiki/update/?title=".$this->data->title ."'>Modifier</a>";
-        return $html;
+				<br />";
+    if(isset($_SESSION['user_login']) && $_SESSION['user_login'] == $this->data->author)
+        $html .= "<a href='".$this->script_name ."/wiki/update/?title=".$this->data->title ."'>Modifier</a>";
+    return $html;
 
     }
 

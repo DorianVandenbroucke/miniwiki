@@ -27,7 +27,7 @@ class WikiController {
         $wikiView = new WikiView($page);
         $wikiView->render('view');
     }
-	
+
 	public function addPage(){
 		$form = "
 				<form action='#' method='POST'>
@@ -44,19 +44,19 @@ class WikiController {
 				$page->title = $_POST['title'];
 				$page->text = $_POST['text'];
 				$page->date = date('Y-m-d');
-				$page->author = 1;
-				
+				$page->author = $_SESSION['user_id'];
+
 				$page->save();
 			}
 		}
 		$wikiView = new WikiView($form);
 		$wikiView->render('add');
 	}
-	
+
 	public function updatePage(){
-		
+
 		$p = Page::findByTitle($_GET['title']);
-		
+
 		$form = "
 				<h1>".$_GET['title'] ."</h1>
 				<form action='#' method='POST'>
@@ -75,12 +75,12 @@ class WikiController {
 				$page->text = $_POST['text'];
 				$page->date = date('Y-m-d');
 				$page->author = 1;
-				
+
 				$page->save();
 			}
 		}
 		$wikiView = new WikiView($form);
 		$wikiView->render('update');
 	}
-	
+
 }

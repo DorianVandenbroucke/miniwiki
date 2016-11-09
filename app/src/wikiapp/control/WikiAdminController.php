@@ -5,6 +5,7 @@ namespace wikiapp\control;
 use wikiapp\control\WikiController as WikiController;
 use \wikiapp\utils\Authentification as Authentification;
 use \wikiapp\model\Page as Page;
+use \wikiapp\model\User as User;
 use \wikiapp\view\WikiAdminView as WikiAdminView;
 
 class WikiAdminController {
@@ -25,7 +26,7 @@ class WikiAdminController {
 
     public function loginUser() {
       if(isset($_SESSION['user_login'])){
-        $this->perso();
+        $this->userSpace();
       }
       $wikiAdminView = new WikiAdminView(NULL);
       $wikiAdminView->render('login');
@@ -38,6 +39,36 @@ class WikiAdminController {
          *
          */
 
+    }
+
+    public function registrerUser(){
+      if(isset($_SESSION['user_login'])){
+        $this->userSpace();
+      }
+      $wikiAdminView = new WikiAdminView(NULL);
+      $wikiAdminView->render('registration');
+    }
+
+    public function createUser(){
+      $login = $_POST['login'];
+      $pass = $_POST['pass'];
+      $pass_2 = $_POST['pass_2'];
+
+      if(filter_var($login, FILTER_SANITIZE_STRING) && filter_var($pass, FILTER_SANITIZE_STRING) && filter_var($pass_2, FILTER_SANITIZE_STRING)){
+        if($pass_2 == $pass){
+          $authentification = new Authentification();
+          $authentification = $authentification->createUser($login, $pass, 100);
+          if($authentification){
+            $this->loginUser();
+            echo "Vous avez bien été inscrit, veuillez vous connecter.";
+          }else{
+            $this->registrerUser();
+            echo "Une erreur est survenue.";
+          }
+        }else{
+          echo "Les deux mots de passe ne correspondent pas.";
+        }
+      }
     }
 
     /*
@@ -114,7 +145,8 @@ class WikiAdminController {
      */
 
     public function userSpace(){
-      $pages = Page::findAll();
+      $user = User::findByUser($_SESSION['user_login']);
+      $pages = $user->getPages();
       $wikiAdminView = new WikiAdminView($pages);
       $wikiAdminView->render('perso');
 

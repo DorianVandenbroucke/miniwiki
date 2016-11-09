@@ -19,6 +19,7 @@ Class Authentification extends AbstractAuthentification{
 			if(password_verify($pass, $user->pass)){
 				$_SESSION['user_login'] = $login;
 				$_SESSION['access_level'] = $user->level;
+				$_SESSION['user_id'] = $user->id;
 				$this->user_login = $login;
 				$this->access_level = $user->level;
 				return true;
@@ -30,6 +31,7 @@ Class Authentification extends AbstractAuthentification{
 	public function logout(){
 
 		unset($_SESSION["user_login"]);
+		unset($_SESSION["user_id"]);
 		unset($_SESSION["access_level"]);
 		unset($this->user_login);
 		unset($this->access_level);
@@ -55,7 +57,6 @@ Class Authentification extends AbstractAuthentification{
     $db = ConnectionFactory::makeConnection();
 
 		$password = password_hash($pass, PASSWORD_DEFAULT);
-		add_user($login, $password, $level);
 		$requete = "
 							INSERT INTO user
 							VALUES(
